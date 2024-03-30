@@ -18,4 +18,4 @@ npx expo start
 
 **Result:**
 
-![result setup](<images/result_setup.png>)
+![result setup](</Documents/images/result_setup.png>)
