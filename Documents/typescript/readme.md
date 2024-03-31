@@ -1,6 +1,64 @@
 # Typescript Basic
 
-
+## Table of contents
+- [Typescript Basic](#typescript-basic)
+  - [Table of contents](#table-of-contents)
+  - [1. Introduction](#1-introduction)
+    - [1.1 What is typescript?](#11-what-is-typescript)
+    - [1.2 TS/JS Interoperability](#12-tsjs-interoperability)
+    - [1.3 Install and configuration](#13-install-and-configuration)
+    - [1.4 What is tsc?](#14-what-is-tsc)
+    - [Read more](#read-more)
+  - [2. Typescript Types](#2-typescript-types)
+    - [2.1 Primitive types](#21-primitive-types)
+    - [2.2 Object types](#22-object-types)
+    - [Other Types](#other-types)
+    - [Assertions](#assertions)
+  - [3. Combining types](#3-combining-types)
+    - [3.1 Union types](#31-union-types)
+    - [3.2 Intersection Types](#32-intersection-types)
+    - [3.4 Type Aliases](#34-type-aliases)
+    - [3.5 Keyof](#35-keyof)
+  - [4. Type Guards/Narrowing](#4-type-guardsnarrowing)
+    - [4.1 Instanceof](#41-instanceof)
+    - [4.2 Typeof](#42-typeof)
+  - [5. Typescript Function](#5-typescript-function)
+    - [5.1 Typing Function](#51-typing-function)
+    - [5.2 Functuion Overloading](#52-functuion-overloading)
+  - [6. Typescript interface](#6-typescript-interface)
+    - [6.1 Type vs Interface](#61-type-vs-interface)
+    - [6.2 Extending interface](#62-extending-interface)
+    - [6.3 Interface Declaration](#63-interface-declaration)
+  - [7. Classes](#7-classes)
+    - [7.1 Constructor Params](#71-constructor-params)
+  - [8. Generic](#8-generic)
+    - [8.1 Generic Types](#81-generic-types)
+    - [8.2 Generic Constraints](#82-generic-constraints)
+  - [9. Decorators](#9-decorators)
+  - [10. Utility Types](#10-utility-types)
+    - [10.1 Partial](#101-partial)
+    - [10.2 Pick](#102-pick)
+    - [10.3 Omit](#103-omit)
+    - [10.4 Readonly](#104-readonly)
+    - [10.5 Record](#105-record)
+    - [10.6 Exclude](#106-exclude)
+    - [10.7 Extract](#107-extract)
+    - [10.8 Non Nullable](#108-non-nullable)
+    - [10.9 Parameters](#109-parameters)
+    - [10.10 ReturnTypes](#1010-returntypes)
+    - [10.11 InstanceType](#1011-instancetype)
+    - [10.12 Awaited](#1012-awaited)
+  - [11 Advanced types](#11-advanced-types)
+    - [11.1 Mapped Types](#111-mapped-types)
+    - [11.2 Conditional Types](#112-conditional-types)
+    - [12.2 Literal Types](#122-literal-types)
+    - [12.3 Template Literal Types](#123-template-literal-types)
+    - [12.4 Recursive Types](#124-recursive-types)
+  - [13 Typscript Modules](#13-typscript-modules)
+    - [13.1 Namespace](#131-namespace)
+    - [13.2 Ambient Modules](#132-ambient-modules)
+    - [13.3 Namespace Augumentation](#133-namespace-augumentation)
+    - [13.4 Global Augmentation](#134-global-augmentation)
 
 ## 1. Introduction
 
@@ -632,3 +690,208 @@ tsc index.ts
   type C = Awaited<boolean | Promise<number>>;
   // type C = number | boolean
   ```
+
+## 11 Advanced types
+
+### 11.1 Mapped Types
+
+- Mapped types in TypeScript are a way to create a new type based on an existing type, where each property of the existing type is transformed in some way. Mapped types are declared using a combination of the keyof operator and a type that maps each property of the existing type to a new property type.
+
+
+  For example:
+  ```typescript
+  type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+  };
+
+  let obj = { x: 10, y: 20 };
+  let readonlyObj: Readonly<typeof obj> = obj;
+  ```
+### 11.2 Conditional Types
+
+- Conditional types in TypeScript are a way to select a type based on a condition. They allow you to write a type that dynamically chooses a type based on the types of its inputs.
+
+  For example 1:
+
+  ```typescript
+  type Extends<T, U> = T extends U ? T : U;
+
+  type A = Extends<string, any>; // type A is 'string'
+  type B = Extends<any, string>; // type B is 'string'
+  ```
+
+  For example 2:
+
+  ```typescript
+  interface Animal {
+    live(): void;
+  }
+  interface Dog extends Animal {
+    woof(): void;
+  }
+
+  type Example1 = Dog extends Animal ? number : string;
+
+  type Example1 = number
+
+  type Example2 = RegExp extends Animal ? number : string;
+
+  type Example2 = string
+  ```
+
+### 12.2 Literal Types
+
+- Literal types in TypeScript are a way to specify a value exactly, rather than just a type. Literal types can be used to enforce that a value must be of a specific type and a specific value.
+
+  For example:
+
+  ```typescript
+  type Age = 42;
+
+  let age: Age = 42; // ok
+  let age: Age = 43; // error
+  ```
+
+### 12.3 Template Literal Types
+
+- Template literal types in TypeScript are a way to manipulate string values as types. They allow you to create a type based on the result of string manipulation or concatenation.
+- You can use to create commonly string(Ex: field name in database, constants,...)
+- You can use the condition(OR, AND,..) to mapping types for this type.
+
+  For example:
+
+  ```typescript
+  type Name = `Mr. ${string}`;
+
+  let name: Name = `Mr. Smith`;  // ok
+  let name: Name = `Mrs. Smith`;  // error
+  ```
+### 12.4 Recursive Types
+
+- Recursive types in TypeScript are a way to define a type that references itself.
+
+  For exmaple:
+
+  ```typescript
+  type LinkedList<T> = {
+    value: T;
+    next: LinkedList<T> | null;
+  };
+
+  let list: LinkedList<number> = {
+    value: 1,
+    next: { value: 2, next: { value: 3, next: null } },
+  };
+  ```
+
+## 13 Typscript Modules
+
+### 13.1 Namespace
+
+- In TypeScript, namespaces are used to organize and share code across multiple files. Namespaces allow you to group related functionality into a single unit and prevent naming conflicts.
+
+  For example:
+
+  ```typescript
+  namespace Validation {
+    export interface StringValidator {
+      isAcceptable(s: string): boolean;
+    }
+    const lettersRegexp = /^[A-Za-z]+$/;
+    const numberRegexp = /^[0-9]+$/;
+    export class LettersOnlyValidator implements StringValidator {
+      isAcceptable(s: string) {
+        return lettersRegexp.test(s);
+      }
+    }
+    export class ZipCodeValidator implements StringValidator {
+      isAcceptable(s: string) {
+        return s.length === 5 && numberRegexp.test(s);
+      }
+    }
+  }
+  // Some samples to try
+  let strings = ["Hello", "98052", "101"];
+  // Validators to use
+  let validators: { [s: string]: Validation.StringValidator } = {};
+  validators["ZIP code"] = new Validation.ZipCodeValidator();
+  validators["Letters only"] = new Validation.LettersOnlyValidator();
+  // Show whether each string passed each validator
+  for (let s of strings) {
+    for (let name in validators) {
+      console.log(
+        `"${s}" - ${
+          validators[name].isAcceptable(s) ? "matches" : "does not match"
+        } ${name}`
+      );
+    }
+  }
+  ```
+
+### 13.2 Ambient Modules
+
+- Ambient modules in TypeScript are used to declare external modules or third-party libraries in a TypeScript program. Ambient modules provide type information for modules that have no TypeScript declarations, but are available in the global scope.
+
+  For example:
+
+  ```typescript
+  // myModule.d.ts
+  declare module 'my-module' {
+    export function doSomething(): void;
+  }
+
+  // main.ts
+  import * as myModule from 'my-module';
+  myModule.doSomething();
+  ```
+
+### 13.3 Namespace Augumentation
+
+- In TypeScript, namespace augmentation is a way to extend or modify existing namespaces. This is useful when you want to add new functionality to existing namespaces or to fix missing or incorrect declarations in third-party libraries.
+
+  For example:
+
+  ```typescript
+  // myModule.d.ts
+  declare namespace MyModule {
+    export interface MyModule {
+      newFunction(): void;
+    }
+  }
+
+  // main.ts
+  /// <reference path="myModule.d.ts" />
+  namespace MyModule {
+    export class MyModule {
+      public newFunction() {
+        console.log('I am a new function in MyModule!');
+      }
+    }
+  }
+
+  const obj = new MyModule.MyModule();
+  obj.newFunction(); // Output: "I am a new function in MyModule!"
+  ```
+
+### 13.4 Global Augmentation
+
+- In TypeScript, global augmentation is a way to add declarations to the global scope. This is useful when you want to add new functionality to existing libraries or to augment the built-in types in TypeScript.
+
+  For example:
+
+  ``` typescript
+  // myModule.d.ts
+  declare namespace NodeJS {
+    interface Global {
+      myGlobalFunction(): void;
+    }
+  }
+
+  // main.ts
+  global.myGlobalFunction = function () {
+    console.log('I am a global function!');
+  };
+
+  myGlobalFunction(); // Output: "I am a global function!"
+  ```
+
