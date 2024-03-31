@@ -125,3 +125,32 @@ npx expo start
 
   export default App;
   ```
+## 2.2 Listings
+
+### 2.3.1 ScrollView
+
+- In React Native, the ScrollView is a generic scrolling container used to provide a scrollable view to its child components. It is useful when you need to display scrollable content larger than the screen, such as lists, images, or text. A ScrollView must have a bounded height in order to properly work.
+
+  For example:
+
+  ```typescript
+  import React from "react";
+  import { ScrollView, Text, SafeAreaView } from "react-native";
+
+  const App = () => {
+    return (
+      <SafeAreaView>
+        <ScrollView>
+          <Text>Item 1</Text>
+          <Text>Item 2</Text>
+          <Text>Item 3</Text>
+          <Text>Item 4</Text>
+          <Text>Item 5</Text>
+          <Text>Item 6</Text>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  };
+
+  export default App;
+  ```

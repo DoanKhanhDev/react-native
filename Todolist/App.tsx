@@ -1,21 +1,19 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { ScrollView, Text, SafeAreaView } from "react-native";
 
-function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Hello, World!</Text>
-    </View>
+    <SafeAreaView>
+      <ScrollView>
+        <Text>Item 1</Text>
+        <Text>Item 2</Text>
+        <Text>Item 3</Text>
+        <Text>Item 4</Text>
+        <Text>Item 5</Text>
+        <Text>Item 6</Text>
+      </ScrollView>
+    </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+};
 
 export default App;
